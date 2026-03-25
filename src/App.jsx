@@ -80,8 +80,8 @@ const App = () => {
     },
     {
       id: 'Musique', label: t.labels.musique, icon: <Music size={20} />,
-      media: musiqueVid
-      //media: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600"
+      //media: musiqueVid
+      media: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600"
     },
     {
       id: 'Gateaux', label: t.labels.gateaux, icon: <Coffee size={20} />,
