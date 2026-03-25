@@ -5,6 +5,7 @@ import {
   Info, MessageSquare
 } from 'lucide-react';
 
+
 // Assets
 import henneBG from './assets/henne.jpeg';
 import chairImg from './assets/chair.jpeg';
