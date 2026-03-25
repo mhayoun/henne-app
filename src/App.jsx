@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin, Users, Music, Lightbulb, Shirt, Armchair, Coffee, Send, Languages, Phone } from 'lucide-react';
-// Assure-toi que le nom du fichier correspond à celui dans ton dossier assets
-import hennePoster from './assets/henne.jpeg';
+import { Calendar, MapPin, Users, Music, Lightbulb, Shirt, Armchair, Coffee, Send, Languages, Phone, ChevronDown } from 'lucide-react';
+// Utilisation du nouveau fond généré sans texte
+import henneBG from './assets/henne.jpeg';
+import chairImg from './assets/chair.jpeg';
+import tenuesImg from './assets/tenues.jpeg';
+import gateauxImg from './assets/gateaux.jpeg';
+import teouraImg from './assets/teoura.jpeg';
 
 const App = () => {
-  const [lang, setLang] = useState('fr');
+  // 1. Hébreu par défaut
+  const [lang, setLang] = useState('he');
+
+  // 2. Tous les services sélectionnés par défaut
   const [formData, setFormData] = useState({
-    date: '', lieu: '', invites: 50, services: [], nom: ''
+    date: '',
+    lieu: '',
+    invites: 50,
+    nom: '',
+    services: ['Fauteuil', 'Eclairage', 'Tenues', 'Musique', 'Gateaux']
   });
+
+  // État pour l'accordéon (quel service est ouvert)
+  const [openAccordion, setOpenAccordion] = useState(null);
 
   const content = {
     fr: {
@@ -49,12 +63,28 @@ const App = () => {
   const t = content[lang];
   const isRtl = lang === 'he';
 
+  // Liste des services avec images/vidéos d'illustration
   const servicesList = [
-    { id: 'Fauteuil', label: t.labels.fauteuil, icon: <Armchair size={20} /> },
-    { id: 'Eclairage', label: t.labels.eclairage, icon: <Lightbulb size={20} /> },
-    { id: 'Tenues', label: t.labels.tenues, icon: <Shirt size={20} /> },
-    { id: 'Musique', label: t.labels.musique, icon: <Music size={20} /> },
-    { id: 'Gateaux', label: t.labels.gateaux, icon: <Coffee size={20} /> },
+    {
+      id: 'Fauteuil', label: t.labels.fauteuil, icon: <Armchair size={20} />,
+      media: chairImg
+    },
+    {
+      id: 'Eclairage', label: t.labels.eclairage, icon: <Lightbulb size={20} />,
+      media: teouraImg
+    },
+    {
+      id: 'Tenues', label: t.labels.tenues, icon: <Shirt size={20} />,
+      media: tenuesImg
+    },
+    {
+      id: 'Musique', label: t.labels.musique, icon: <Music size={20} />,
+      media: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600"
+    },
+    {
+      id: 'Gateaux', label: t.labels.gateaux, icon: <Coffee size={20} />,
+      media: gateauxImg
+    },
   ];
 
   const toggleService = (id) => {
@@ -70,20 +100,15 @@ const App = () => {
   };
 
   return (
-    <div
-      className={`min-h-screen font-serif relative ${isRtl ? 'rtl text-right' : 'ltr text-left'}`}
-      dir={isRtl ? 'rtl' : 'ltr'}
-    >
+    <div className={`min-h-screen font-serif relative ${isRtl ? 'rtl text-right' : 'ltr text-left'}`} dir={isRtl ? 'rtl' : 'ltr'}>
+
       {/* BACKGROUND IMAGE LAYER */}
       <div
         className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat scale-105"
-        style={{
-          backgroundImage: `url(${hennePoster})`,
-          backgroundAttachment: 'fixed'
-        }}
+        style={{ backgroundImage: `url(${henneBG})`, backgroundAttachment: 'fixed' }}
       />
 
-      {/* OVERLAY LAYER (Voile sombre pour lisibilité) */}
+      {/* OVERLAY LAYER */}
       <div className="fixed inset-0 z-10 bg-gradient-to-b from-emerald-950/40 via-emerald-950/70 to-emerald-950/90 backdrop-blur-[1px]" />
 
       {/* CONTENT LAYER */}
@@ -93,7 +118,7 @@ const App = () => {
         <div className="flex justify-end mb-8">
           <button
             onClick={() => setLang(lang === 'fr' ? 'he' : 'fr')}
-            className="flex items-center gap-2 bg-yellow-600/30 border border-yellow-500 px-5 py-2 rounded-full hover:bg-yellow-500 hover:text-emerald-950 transition-all font-bold shadow-xl"
+            className="flex items-center gap-2 bg-yellow-600/30 border border-yellow-500 px-5 py-2 rounded-full hover:bg-yellow-500 hover:text-emerald-950 transition-all font-bold shadow-xl text-white"
           >
             <Languages size={20} />
             {lang === 'fr' ? 'עברית' : 'Français'}
@@ -112,27 +137,41 @@ const App = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-          {/* Section Services */}
+          {/* Section Services avec ACCORDÉON */}
           <section className="space-y-4">
             <h2 className="text-3xl font-bold text-[#fbbf24] mb-8 flex items-center gap-3">
               {t.servicesTitle}
             </h2>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-4">
               {servicesList.map((s) => (
-                <div
-                  key={s.id}
-                  onClick={() => toggleService(s.id)}
-                  className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all duration-300 group ${
-                    formData.services.includes(s.id)
-                    ? 'bg-yellow-500 border-white text-emerald-950 scale-[1.02] shadow-2xl shadow-yellow-500/20'
-                    : 'bg-white/10 border-white/20 hover:border-yellow-500/50 hover:bg-white/20'
-                  }`}
-                >
-                  <div className="flex items-center gap-5">
-                    <div className={formData.services.includes(s.id) ? 'text-emerald-900' : 'text-yellow-500'}>
-                      {s.icon}
+                <div key={s.id} className="overflow-hidden rounded-2xl border border-white/20 bg-emerald-900/40 backdrop-blur-md">
+                  <div
+                    onClick={() => {
+                      setOpenAccordion(openAccordion === s.id ? null : s.id);
+                      toggleService(s.id); // Optionnel: décoche si on reclique
+                    }}
+                    className={`flex items-center justify-between p-5 cursor-pointer transition-all duration-300 ${
+                      formData.services.includes(s.id) ? 'bg-yellow-500 text-emerald-950' : 'text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <div className="flex items-center gap-5">
+                      <div className={formData.services.includes(s.id) ? 'text-emerald-900' : 'text-yellow-500'}>
+                        {s.icon}
+                      </div>
+                      <span className="font-bold text-lg">{s.label}</span>
                     </div>
-                    <span className="font-bold text-lg">{s.label}</span>
+                    <ChevronDown className={`transition-transform duration-300 ${openAccordion === s.id ? 'rotate-180' : ''}`} />
+                  </div>
+
+                  {/* Contenu de l'accordéon */}
+                  <div className={`transition-all duration-500 ease-in-out ${openAccordion === s.id ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                    <div className="p-4 pt-0">
+                      <img
+                        src={s.media}
+                        alt={s.label}
+                        className="w-full h-48 object-cover rounded-xl border-2 border-yellow-500/30"
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -140,20 +179,20 @@ const App = () => {
           </section>
 
           {/* Section Formulaire */}
-          <section className="bg-emerald-900/40 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl">
+          <section className="bg-emerald-900/40 backdrop-blur-xl p-8 rounded-3xl border border-white/20 shadow-2xl sticky top-10">
             <h2 className="text-3xl font-bold text-[#fbbf24] mb-8">{t.logisticsTitle}</h2>
             <div className="space-y-5">
               <input
                 type="text"
                 placeholder={t.labels.nom}
-                className="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:bg-white/20 focus:border-yellow-500 outline-none transition-all"
+                className="w-full p-4 rounded-xl bg-white/90 text-emerald-950 placeholder-emerald-800 font-bold outline-none focus:ring-4 focus:ring-yellow-500 transition-all"
                 onChange={e => setFormData({...formData, nom: e.target.value})}
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="date" className="p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:border-yellow-500" onChange={e => setFormData({...formData, date: e.target.value})} />
-                <input type="number" placeholder={t.labels.invites} className="p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:border-yellow-500" onChange={e => setFormData({...formData, invites: e.target.value})} />
+                <input type="date" className="p-4 rounded-xl bg-white/90 text-emerald-950 font-bold outline-none" onChange={e => setFormData({...formData, date: e.target.value})} />
+                <input type="number" placeholder={t.labels.invites} className="p-4 rounded-xl bg-white/90 text-emerald-950 font-bold outline-none" onChange={e => setFormData({...formData, invites: e.target.value})} />
               </div>
-              <input type="text" placeholder={t.labels.lieu} className="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white outline-none focus:border-yellow-500" onChange={e => setFormData({...formData, lieu: e.target.value})} />
+              <input type="text" placeholder={t.labels.lieu} className="w-full p-4 rounded-xl bg-white/90 text-emerald-950 font-bold outline-none" onChange={e => setFormData({...formData, lieu: e.target.value})} />
 
               <button
                 onClick={handleWhatsApp}
@@ -163,9 +202,9 @@ const App = () => {
               </button>
 
               <div className="text-center pt-6">
-                <p className="text-gray-400 mb-2">Contact direct :</p>
-                <a href="tel:0522336877" className="text-2xl font-bold text-yellow-500 flex items-center justify-center gap-2">
-                  <Phone size={20} /> 052-2336877
+                <p className="text-gray-300 mb-2 font-medium">Contact direct :</p>
+                <a href="tel:0522336877" className="text-3xl font-bold text-yellow-500 flex items-center justify-center gap-3">
+                  <Phone size={24} /> 052-2336877
                 </a>
               </div>
             </div>
