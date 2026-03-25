@@ -127,22 +127,24 @@ const App = () => {
           </button>
         </div>
 
-        <header className="text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-black text-[#fbbf24] uppercase tracking-tighter mb-4 drop-shadow-2xl">
+        {/* Header réduit pour mobile */}
+        <header className="text-center mb-6 md:mb-16">
+          <h1 className="text-3xl md:text-7xl font-black text-[#fbbf24] uppercase tracking-tighter mb-2 drop-shadow-2xl">
             {t.title}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-100 font-light italic max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-2xl text-gray-100 font-light italic max-w-2xl mx-auto leading-tight opacity-90">
             "{t.subtitle}"
           </p>
-          <div className="h-1.5 w-48 bg-gradient-to-r from-transparent via-yellow-500 to-transparent mx-auto mt-6" />
+          {/* Ligne décorative plus fine sur mobile */}
+          <div className="h-1 w-32 md:w-48 bg-gradient-to-r from-transparent via-yellow-500 to-transparent mx-auto mt-4" />
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
           {/* Section Services avec ACCORDÉON */}
           <section className="space-y-4">
-            <h2 className="text-3xl font-bold text-[#fbbf24] mb-8 flex items-center gap-3">
-              {t.servicesTitle}
+            <h2 className="hidden md:flex text-3xl font-bold text-[#fbbf24] mb-8 items-center gap-3">
+                {t.servicesTitle}
             </h2>
             <div className="grid grid-cols-1 gap-4">
               {servicesList.map((s) => (
