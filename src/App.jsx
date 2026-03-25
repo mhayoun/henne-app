@@ -120,7 +120,7 @@ const App = () => {
     <div className={`min-h-screen font-serif relative ${isRtl ? 'rtl' : 'ltr'}`} dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Background */}
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${henneBG})` }} />
-      <div className="fixed inset-0 z-10 bg-emerald-950/85 backdrop-blur-[2px]" />
+      <div className="fixed inset-0 z-10 bg-emerald-950/75 backdrop-blur-[2px]" />
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-[100] bg-emerald-950/90 backdrop-blur-md border-b border-yellow-500/20 px-4 py-3">
