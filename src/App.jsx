@@ -6,6 +6,7 @@ import chairImg from './assets/chair.jpeg';
 import tenuesImg from './assets/tenues.jpeg';
 import gateauxImg from './assets/gateaux.jpeg';
 import teouraImg from './assets/teoura.jpeg';
+import musiqueVid from './assets/musique.mp4';
 
 const App = () => {
   // 1. Hébreu par défaut
@@ -79,7 +80,8 @@ const App = () => {
     },
     {
       id: 'Musique', label: t.labels.musique, icon: <Music size={20} />,
-      media: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600"
+      media: musiqueVid
+      //media: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=600"
     },
     {
       id: 'Gateaux', label: t.labels.gateaux, icon: <Coffee size={20} />,
@@ -166,11 +168,23 @@ const App = () => {
                   {/* Contenu de l'accordéon */}
                   <div className={`transition-all duration-500 ease-in-out ${openAccordion === s.id ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
                     <div className="p-4 pt-0">
-                      <img
-                        src={s.media}
-                        alt={s.label}
-                        className="w-full h-48 object-cover rounded-xl border-2 border-yellow-500/30"
-                      />
+                      {s.media.endsWith('.mp4') ? (
+                          <video
+                            src={s.media}
+                            controls
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-64 object-cover rounded-xl border-2 border-yellow-500/30 bg-black"
+                          />
+                        ) : (
+                          <img
+                            src={s.media}
+                            alt={s.label}
+                            className="w-full h-64 object-contain rounded-xl border-2 border-yellow-500/30 bg-black/20"
+                          />
+                        )}
                     </div>
                   </div>
                 </div>
